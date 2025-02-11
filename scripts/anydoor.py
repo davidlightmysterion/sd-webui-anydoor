@@ -285,7 +285,8 @@ def run_local(image, mask, ref_image, ref_mask, reference_mask_refine, num_sampl
         results.append(synthesis)
     return results
 
-def run_api(bg_image, ref_image, ref_mask, bg_mask_x1, bg_mask_y1, bg_mask_x2, bg_mask_y2, num_samples, *args):
+def run_api(bg_image, ref_image, ref_mask, bg_mask_x1, bg_mask_y1, bg_mask_x2, bg_mask_y2, num_samples,
+            reference_mask_refine, *args):
     bg_mask = Image.new("L", bg_image.size, 0)
 
     bg_image_w, bg_image_h = bg_image.size
@@ -294,4 +295,4 @@ def run_api(bg_image, ref_image, ref_mask, bg_mask_x1, bg_mask_y1, bg_mask_x2, b
     draw = ImageDraw.Draw(bg_mask)
     draw.rectangle((bg_mask_x1, bg_mask_y1, bg_mask_x2, bg_mask_y2), fill=255)
 
-    return run_local(bg_image, bg_mask, ref_image, ref_mask, num_samples, *args)
+    return run_local(bg_image, bg_mask, ref_image, ref_mask, num_samples, reference_mask_refine, *args)

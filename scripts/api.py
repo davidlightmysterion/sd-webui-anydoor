@@ -55,6 +55,8 @@ def anydoor_api_v0(_: gr.Blocks, app: FastAPI):
         ddim_steps: Optional[int] = 30
         scale: Optional[float] = 4.5
         enable_shape_control: Optional[bool] = False
+        reference_mask_refine: Optional[bool] = False
+
 
     @app.post("/anydoor/v0/predict")
     async def api_anydoor_predict_v0(payload: AnydoorPredictRequest = Body(...)) -> Any:
@@ -75,6 +77,7 @@ def anydoor_api_v0(_: gr.Blocks, app: FastAPI):
                 payload.bg_mask_x2,
                 payload.bg_mask_y2,
                 payload.num_samples,
+                payload.reference_mask_refine,
                 payload.strength,
                 payload.ddim_steps,
                 payload.scale,
@@ -100,7 +103,6 @@ def anydoor_api_v0(_: gr.Blocks, app: FastAPI):
 try:
     import modules.script_callbacks as script_callbacks
 
-    script_callbacks.on_app_started(anydoor_api_v1)
     script_callbacks.on_app_started(anydoor_api_v0)
 except:
     print("ANYDOOR Web UI API failed to initialize")
