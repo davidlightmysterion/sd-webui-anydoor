@@ -1,0 +1,4 @@
+pretrained_model: epoch=1-step=8687.ckpt
+config_file: anydoor.yaml
+save_memory: False
+use_interactive_seg: True
