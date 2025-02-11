@@ -33,9 +33,9 @@ def encode_to_base64(image):
         Exception("Invalid type")
 
 
-def anydoor_api_v0(_: gr.Blocks, app: FastAPI):
-    @app.get("/anydoor/v0/heartbeat")
-    async def heartbeat_v0():
+def anydoor_api(_: gr.Blocks, app: FastAPI):
+    @app.get("/anydoor/heartbeat")
+    async def heartbeat():
         return {
             "msg": "Success!",
             "status_code": 200,
@@ -57,9 +57,8 @@ def anydoor_api_v0(_: gr.Blocks, app: FastAPI):
         enable_shape_control: Optional[bool] = False
         reference_mask_refine: Optional[bool] = False
 
-
-    @app.post("/anydoor/v0/predict")
-    async def api_anydoor_predict_v0(payload: AnydoorPredictRequest = Body(...)) -> Any:
+    @app.post("/anydoor/predict")
+    async def api_anydoor_predict(payload: AnydoorPredictRequest = Body(...)) -> Any:
         print(f"ANYDOOR API /anydoor/predict received request")
         payload.input_image = decode_to_pil(payload.input_image).convert("RGB")
         # payload.input_mask = decode_to_pil(payload.input_mask).convert("L")
@@ -90,7 +89,7 @@ def anydoor_api_v0(_: gr.Blocks, app: FastAPI):
             message = f"Failed: {e}"
             status_code = 400
 
-        print(f"ANYDOOR API /anydoor/v0/predict finished with message: {message}")
+        print(f"ANYDOOR API /anydoor/predict finished with message: {message}")
         result = {
             "msg": message,
             "status_code": status_code,
@@ -102,7 +101,6 @@ def anydoor_api_v0(_: gr.Blocks, app: FastAPI):
 
 try:
     import modules.script_callbacks as script_callbacks
-
-    script_callbacks.on_app_started(anydoor_api_v0)
+    script_callbacks.on_app_started(anydoor_api)
 except:
     print("ANYDOOR Web UI API failed to initialize")
