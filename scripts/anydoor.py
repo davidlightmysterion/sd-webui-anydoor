@@ -22,7 +22,8 @@ cv2.setNumThreads(0)
 cv2.ocl.setUseOpenCL(False)
 
 model_cache = OrderedDict()
-model_dir = os.path.join(scripts.basedir(), "models")
+# model_dir = os.path.join(scripts.basedir(), "models")
+model_dir = "/home/david/models/anydoor"
 config_dir = os.path.join(scripts.basedir(), "configs")
 example_dir = os.path.join(scripts.basedir(), "examples")
 
@@ -260,7 +261,7 @@ def run_webui(base, ref, ref_mask, *args):
     ref_mask = ref["mask"].convert("L") if not ref_mask else ref_mask.convert("L")
     return run_local(image, mask, ref_image, ref_mask, *args)
 
-def run_local(image, mask, ref_image, ref_mask, reference_mask_refine, num_samples, *args):
+def run_local(image, mask, ref_image, ref_mask, num_samples, reference_mask_refine, *args):
     image = np.asarray(image)
     mask = np.asarray(mask)
     mask = np.where(mask > 128, 1, 0).astype(np.uint8)

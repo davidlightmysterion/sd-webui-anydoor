@@ -1,6 +1,6 @@
 # sd-webui-anydoor
 
-A Stable Diffusion WebUI Extension for [`AnyDoor: Zero-shot Object-level Image Customization`](https://github.com/ali-vilab/AnyDoor?tab=readme-ov-file) 
+Stable Diffusion WebUI extension for [_AnyDoor: Zero-shot Object-level Image Customization_](https://github.com/ali-vilab/AnyDoor?tab=readme-ov-file) 
 
 ## Installation
 
@@ -23,7 +23,9 @@ You can use a prepared reference mask or sketch on your own reference image. Rem
 
 ## API Interface
 
-Also provide a **POST** API interface `/anydoor/predict`. You can also check the parameters on the localhost:7860/docs interface.
+A simple **POST** API `/anydoor/predict`, using a rectangle bounding box as the input mask for convenience.
+
+You can also check the parameters on `localhost:7860/docs`.
 
 ### a. input parameters
 
@@ -51,7 +53,7 @@ Also provide a **POST** API interface `/anydoor/predict`. You can also check the
 |      msg       |                                        message                                        |
 |     images     | generated images, type: list of base64 string, same with internal `txt2img` interface |
 
-### c. API example
+### c. example
 
 ```python
 import requests
@@ -72,8 +74,9 @@ payload = {
     "enable_shape_control": False,
     "reference_mask_refine": False,
 }
-response = requests.post("http://127.0.0.1:7860/anydoor/predict", json=payload)
-images = response.json()["images"]
-base64.b64decode(images[0])
+response = requests.post("http://localhost:7860/anydoor/predict", json=payload)
+base64_str = response.json()["images"][0]
+with open("image.jpg", "wb") as file:
+    file.write(base64.b64decode(base64_str))
 ```
 
