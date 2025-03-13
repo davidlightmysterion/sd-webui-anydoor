@@ -26,7 +26,7 @@ def on_ui_tabs():
             with gr.Row():
                 with gr.Column():
                     ref = gr.Image(label="Reference", source="upload", tool="sketch", type="pil", height=256, brush_color='#FFFFFF', mask_opacity=0.5)
-                    ref_mask = gr.Image(label="Reference Mask", source="upload", type="pil", height=256)
+                    ref_mask = gr.Image(label="Reference Mask", source="upload", type="pil", height=256, visible=False)
                 with gr.Accordion("Advanced Option", open=True):
                     num_samples = gr.Slider(label="number", minimum=1, maximum=20, value=3, step=1)
                     strength = gr.Slider(label="Control Strength", minimum=0.0, maximum=2.0, value=1.0, step=0.01)
@@ -42,8 +42,8 @@ def on_ui_tabs():
                     gr.Examples(image_list, inputs=[base], label="Examples - Background Image", examples_per_page=50)
                 with gr.Column():
                     gr.Examples(ref_list, inputs=[ref], label="Examples - Reference Object", examples_per_page=50)
-                with gr.Column():
-                    gr.Examples(ref_mask_list, inputs=[ref_mask], label="Examples - Reference Mask", examples_per_page=50)
+                # with gr.Column():
+                #     gr.Examples(ref_mask_list, inputs=[ref_mask], label="Examples - Reference Mask", examples_per_page=50)
 
             baseline_gallery = gr.Gallery(label='Output', show_label=True, elem_id="gallery", columns=1, height=512,
                                           rows=9, preview=True, selected_index=0)
